@@ -4,7 +4,6 @@ const axios = require("axios");
 const JWT = require("jsonwebtoken");
 const catchAsync = require("./../utils/catchAsync");
 const User = require("./../models/userModel");
-const { userInfo } = require("os");
 
 /**
  * To use OAuth2 authentication, we need access to a CLIENT_ID, CLIENT_SECRET, AND REDIRECT_URI
