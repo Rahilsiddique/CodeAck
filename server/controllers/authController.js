@@ -4,6 +4,7 @@ const axios = require("axios");
 const JWT = require("jsonwebtoken");
 const catchAsync = require("./../utils/catchAsync");
 const User = require("./../models/userModel");
+const { userInfo } = require("os");
 
 /**
  * To use OAuth2 authentication, we need access to a CLIENT_ID, CLIENT_SECRET, AND REDIRECT_URI
@@ -39,22 +40,11 @@ async function getUserInfo(token) {
         }
       )
     ).data;
-  } catch (err) {}
+  } catch (err) {
+    throw err;
+  }
 }
 exports.getUserInfo = getUserInfo;
-
-async function login(req, res, next) {
-  const token = req.cookies?.jwt;
-  let data = {};
-  if (token) {
-    const decoded = JWT.verify(req.cookies.jwt, process.env.JWT_SECRET);
-    data = await getUserInfo(decoded);
-  } else {
-    data = await getUserInfo(req.tokens);
-  }
-  return data;
-}
-exports.login = login;
 
 exports.displayUserDetails = catchAsync(async (req, res, next) => {
   const decoded = JWT.verify(req.cookies.jwt, process.env.JWT_SECRET);
@@ -69,7 +59,7 @@ exports.oauth2callback = catchAsync(async (req, res, next) => {
   let { tokens } = await oauth2Client.getToken(q.code);
   oauth2Client.setCredentials(tokens);
   req.tokens = tokens;
-  const results = await login(req, res, next);
+  const results = await getUserInfo(req.tokens);
   const userinfo = results;
 
   // 3. If user doesn't already exist create the user in the database
@@ -78,10 +68,11 @@ exports.oauth2callback = catchAsync(async (req, res, next) => {
     name: userinfo.name,
     email: userinfo.email,
     profilePicture: userinfo.picture,
+    createdAt: new Date(Date.now()).getTime(),
   };
   // User Signup
   if (!(await User.findOne({ email: users.email }))) {
-    const user = await User.create(users);
+    await User.create(users);
   } else {
     // User Login
     await User.findOneAndUpdate(
@@ -95,8 +86,12 @@ exports.oauth2callback = catchAsync(async (req, res, next) => {
   // 4. Create a JWT token
   let token = JWT.sign(
     {
-      access_token: tokens.access_token,
-      userdata: userinfo,
+      userdata: {
+        email: userinfo.email,
+        name: userinfo.given_name,
+        lastName: userinfo?.family_name,
+        profilePicture: userinfo.picture,
+      },
     },
     process.env.JWT_SECRET,
     {
