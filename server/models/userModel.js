@@ -10,6 +10,7 @@ const userSchema = mongoose.Schema({
     required: [true, "Email is required"],
   },
   profilePicture: String,
+  createdAt: Date,
   lastLoginAt: Date,
 });
 
