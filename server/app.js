@@ -7,6 +7,7 @@ const AppError = require("./utils/appError");
 const globalErrorHandler = require("./controllers/errorController");
 const userRouter = require("./routes/userRoutes");
 const probRouter = require("./routes/probRoutes");
+const contestRouter = require("./routes/contestRoutes");
 
 const app = express();
 
@@ -22,6 +23,7 @@ if (process.env.NODE_ENV === "development") {
 // Routes
 app.use("/users", userRouter);
 app.use("/problems", probRouter);
+app.use("/contests", contestRouter);
 
 // Error Handling Middleware
 app.all("*", (req, res, next) => {
