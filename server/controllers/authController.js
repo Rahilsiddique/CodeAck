@@ -60,12 +60,16 @@ exports.oauth2callback = catchAsync(async (req, res, next) => {
   req.tokens = tokens;
   const results = await getUserInfo(req.tokens);
   const userinfo = results;
+  if (userinfo.email === process.env.ADMIN_EMAIL) {
+    userinfo.role = "admin";
+  }
 
   // 3. If user doesn't already exist create the user in the database
   const users = {
     userId: userinfo.id,
     name: userinfo.name,
     email: userinfo.email,
+    role: userinfo?.role,
     profilePicture: userinfo.picture,
     createdAt: new Date(Date.now()).getTime(),
   };
@@ -90,6 +94,7 @@ exports.oauth2callback = catchAsync(async (req, res, next) => {
         name: userinfo.given_name,
         lastName: userinfo?.family_name,
         profilePicture: userinfo.picture,
+        role: userinfo?.role,
       },
     },
     process.env.JWT_SECRET,
