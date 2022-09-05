@@ -1,13 +1,14 @@
 const express = require("express");
 const probController = require("./../controllers/probController");
+const protectAdminRoutes = require("./../utils/protectAdminRoutes");
 
 const router = express.Router();
 
 router
   .route("/")
   .get(probController.retrieve)
-  .post(probController.protect, probController.add)
-  .patch(probController.protect, probController.update)
-  .delete(probController.protect, probController.delete);
+  .post(protectAdminRoutes.protect, probController.add)
+  .patch(protectAdminRoutes.protect, probController.update)
+  .delete(protectAdminRoutes.protect, probController.delete);
 
 module.exports = router;
