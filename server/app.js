@@ -6,6 +6,7 @@ const cors = require("cors");
 const AppError = require("./utils/appError");
 const globalErrorHandler = require("./controllers/errorController");
 const userRouter = require("./routes/userRoutes");
+const probRouter = require("./routes/probRoutes");
 
 const app = express();
 
@@ -20,6 +21,7 @@ if (process.env.NODE_ENV === "development") {
 
 // Routes
 app.use("/users", userRouter);
+app.use("/problems", probRouter);
 
 // Error Handling Middleware
 app.all("*", (req, res, next) => {
