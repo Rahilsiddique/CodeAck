@@ -17,6 +17,12 @@ const probSchema = mongoose.Schema({
       output: String,
     },
   ],
+  testcases: [
+    {
+      input: String,
+      output: String,
+    },
+  ],
   upvotes: Number,
   downvotes: Number,
   relatedTopics: [String],
