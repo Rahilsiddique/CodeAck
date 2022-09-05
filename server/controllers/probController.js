@@ -1,6 +1,5 @@
 const Problem = require("./../models/probModel");
 const catchAsync = require("../utils/catchAsync");
-const JWT = require("jsonwebtoken");
 
 exports.retrieve = catchAsync(async (req, res, next) => {
   const problems = await Problem.find();
@@ -36,15 +35,3 @@ exports.delete = catchAsync(async (req, res, next) => {
     message: "Problem deleted successfully",
   });
 });
-exports.protect = (req, res, next) => {
-  if (req.cookies.jwt) {
-    const auth = JWT.verify(req.cookies.jwt, process.env.JWT_SECRET);
-    if (auth.userdata?.role === "admin") {
-      return next();
-    }
-  }
-  res.status(403).json({
-    status: "fail",
-    message: "Unauthorized",
-  });
-};
