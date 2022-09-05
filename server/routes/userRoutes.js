@@ -5,6 +5,7 @@ const router = express.Router();
 
 router.get("/auth/google", authController.redirectToAuthUrl);
 router.get("/oauth2callback", authController.oauth2callback);
+router.get("/logout", authController.logout);
 router.get(
   "/loggedIn",
   authController.isLoggedIn,

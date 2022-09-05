@@ -123,3 +123,11 @@ exports.isLoggedIn = (req, res, next) => {
     ? res.status(401).json({ status: "fail", message: "Unauthenticated" })
     : next();
 };
+
+exports.logout = catchAsync(async (req, res, next) => {
+  res.clearCookie("jwt");
+  res.status(200).json({
+    status: "success",
+    message: "Logged out successfully",
+  });
+});
