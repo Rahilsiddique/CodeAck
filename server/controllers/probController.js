@@ -3,7 +3,7 @@ const catchAsync = require("../utils/catchAsync");
 
 exports.retrieve = catchAsync(async (req, res, next) => {
   const problems = await Problem.find();
-  const results = await Problem.find().count();
+  const results = await Problem.find().countDocuments();
   res.status(200).json({
     status: "success",
     results,
