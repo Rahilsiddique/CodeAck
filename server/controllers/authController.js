@@ -81,6 +81,7 @@ exports.oauth2callback = catchAsync(async (req, res, next) => {
     await User.findOneAndUpdate(
       { email: userinfo.email },
       {
+        userId: userinfo.id,
         lastLoginAt: new Date(Date.now()).getTime(),
       }
     );
@@ -90,6 +91,7 @@ exports.oauth2callback = catchAsync(async (req, res, next) => {
   let token = JWT.sign(
     {
       userdata: {
+        userId: userinfo.id,
         email: userinfo.email,
         name: userinfo.given_name,
         lastName: userinfo?.family_name,
