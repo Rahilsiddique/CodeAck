@@ -8,7 +8,11 @@ const globalErrorHandler = require("./controllers/errorController");
 const userRouter = require("./routes/userRoutes");
 const probRouter = require("./routes/probRoutes");
 const contestRouter = require("./routes/contestRoutes");
+<<<<<<< HEAD
 const submissionsRouter = require("./routes/submissionRoutes");
+=======
+const submissionRouter = require("./routes/submissionRoutes");
+>>>>>>> 27160f4e9e16d52a50274588d8f99b3f93d96764
 
 const app = express();
 
@@ -25,7 +29,11 @@ if (process.env.NODE_ENV === "development") {
 app.use("/users", userRouter);
 app.use("/problems", probRouter);
 app.use("/contests", contestRouter);
+<<<<<<< HEAD
 app.use("/submissions", submissionsRouter);
+=======
+app.use("/submissions", submissionRouter);
+>>>>>>> 27160f4e9e16d52a50274588d8f99b3f93d96764
 
 // Error Handling Middleware
 app.all("*", (req, res, next) => {
