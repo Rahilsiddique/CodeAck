@@ -73,24 +73,28 @@ exports.oauth2callback = catchAsync(async (req, res, next) => {
     profilePicture: userinfo.picture,
     createdAt: new Date(Date.now()).getTime(),
   };
+  let userid;
   // User Signup
   if (!(await User.findOne({ email: users.email }))) {
-    await User.create(users);
+    userid = (await User.create(users))._id;
   } else {
     // User Login
-    await User.findOneAndUpdate(
-      { email: userinfo.email },
-      {
-        userId: userinfo.id,
-        lastLoginAt: new Date(Date.now()).getTime(),
-      }
-    );
+    userid = (
+      await User.findOneAndUpdate(
+        { email: userinfo.email },
+        {
+          userId: userinfo.id,
+          lastLoginAt: new Date(Date.now()).getTime(),
+        }
+      )
+    )._id;
   }
 
   // 4. Create a JWT token
   let token = JWT.sign(
     {
       userdata: {
+        _id: userid,
         userId: userinfo.id,
         email: userinfo.email,
         name: userinfo.given_name,
