@@ -6,7 +6,7 @@ const router = express.Router();
 
 router
   .route("/")
-  .get(probController.retrieve)
+  .get(probController.getProblems)
   .post(protectAdminRoutes.protect, probController.add)
   .patch(protectAdminRoutes.protect, probController.update)
   .delete(protectAdminRoutes.protect, probController.delete);

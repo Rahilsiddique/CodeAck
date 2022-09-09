@@ -4,6 +4,7 @@ const axios = require("axios");
 const JWT = require("jsonwebtoken");
 const catchAsync = require("./../utils/catchAsync");
 const User = require("./../models/userModel");
+const AppError = require("../utils/appError");
 
 /**
  * To use OAuth2 authentication, we need access to a CLIENT_ID, CLIENT_SECRET, AND REDIRECT_URI
@@ -73,23 +74,29 @@ exports.oauth2callback = catchAsync(async (req, res, next) => {
     profilePicture: userinfo.picture,
     createdAt: new Date(Date.now()).getTime(),
   };
+  let userid;
   // User Signup
   if (!(await User.findOne({ email: users.email }))) {
-    await User.create(users);
+    userid = (await User.create(users))._id;
   } else {
     // User Login
-    await User.findOneAndUpdate(
-      { email: userinfo.email },
-      {
-        lastLoginAt: new Date(Date.now()).getTime(),
-      }
-    );
+    userid = (
+      await User.findOneAndUpdate(
+        { email: userinfo.email },
+        {
+          userId: userinfo.id,
+          lastLoginAt: new Date(Date.now()).getTime(),
+        }
+      )
+    )._id;
   }
 
   // 4. Create a JWT token
   let token = JWT.sign(
     {
       userdata: {
+        _id: userid,
+        userId: userinfo.id,
         email: userinfo.email,
         name: userinfo.given_name,
         lastName: userinfo?.family_name,
@@ -122,11 +129,19 @@ exports.redirectToAuthUrl = (req, res, next) => {
   res.redirect(authorizationUrl);
 };
 
-exports.isLoggedIn = (req, res, next) => {
-  const token = req.cookies?.jwt;
-  token === undefined
-    ? res.status(401).json({ status: "fail", message: "Unauthenticated" })
-    : next();
+exports.isLoggedIn = async (req, res, next) => {
+  const cookie = req.cookies?.jwt;
+  if (cookie === undefined) {
+    res.status(401).json({ status: "fail", message: "Unauthenticated" });
+  } else {
+    await JWT.verify(req.cookies?.jwt, process.env.JWT_SECRET, (err) => {
+      if (err) {
+        next(new AppError("You have been logged out", 400));
+      } else {
+        next();
+      }
+    });
+  }
 };
 
 exports.logout = catchAsync(async (req, res, next) => {
