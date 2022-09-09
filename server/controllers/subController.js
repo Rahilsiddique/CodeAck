@@ -16,7 +16,6 @@ exports.previousSubmissions = catchAsync(async (req, res, next) => {
       );
     else user = User;
   });
-  console.log(user);
   const prevSubmissions = await Submission.find({
     userId: user.userdata.userId,
   });
@@ -40,12 +39,19 @@ function wait(waitTime) {
 
 exports.newSubmission = catchAsync(async (req, res, next) => {
   const user = await JWT.verify(req.cookies.jwt, process.env.JWT_SECRET);
-  const token = await axios.post(`${process.env.JUDGE0_BASE_URL}submissions/`, {
-    source_code: req.body.source_code,
-    language_id: req.body.language_id,
-    std_in: req.body.std_in,
-    expected_output: req.body.expected_output,
-  });
+  let token;
+  try {
+    token = await axios.post(`${process.env.JUDGE0_BASE_URL}submissions/`, {
+      source_code: req.body.source_code,
+      language_id: req.body.language_id,
+      std_in: req.body.std_in,
+      expected_output: req.body.expected_output,
+    });
+  } catch (err) {
+    if (process.env.NODE_ENV === "production")
+      return next(new AppError("Something went wrong. Please try again", 500));
+    else return next(err);
+  }
   let result;
   while (
     result?.data?.status?.description === undefined ||

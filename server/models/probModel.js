@@ -27,6 +27,7 @@ const probSchema = mongoose.Schema({
   downvotes: Number,
   relatedTopics: [String],
   hint: [String],
+  createdAt: Date,
 });
 
 probSchema.post("save", function (error, doc, next) {
