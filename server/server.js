@@ -1,7 +1,5 @@
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
-const schedule = require("node-schedule");
-const Contest = require("./models/contestModel");
 
 process.on("uncaughtException", (err) => {
   console.log("UNCAUGHT EXCEPTION! 💥 Shutting down...");
@@ -26,17 +24,6 @@ mongoose
     if (process.env.NODE_ENV === "development")
       console.log("DB connection successful!");
   });
-
-//Listener for contest start
-(async () => {
-  const contests = await Contest.find();
-  contests.forEach((contest) => {
-    schedule.scheduleJob(contest.date, async function () {
-      contest.status = "ONGOING";
-      await contest.save();
-    });
-  });
-})();
 
 const port = process.env.PORT || 3000;
 const server = app.listen(port, () => {
