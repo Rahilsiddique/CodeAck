@@ -119,10 +119,11 @@ exports.oauth2callback = catchAsync(async (req, res, next) => {
   };
   if (process.env.NODE_ENV === "production") cookieOptions.secure = true;
   res.cookie("jwt", token, cookieOptions);
-  res.status(200).json({
-    status: "success",
-    message: "User signed in Successfully",
-  });
+  res.redirect("http://localhost:5000/");
+  // res.status(200).json({
+  //   status: "success",
+  //   message: "User signed in Successfully",
+  // });
 });
 
 exports.redirectToAuthUrl = (req, res, next) => {
@@ -136,7 +137,9 @@ exports.isLoggedIn = async (req, res, next) => {
   } else {
     await JWT.verify(req.cookies?.jwt, process.env.JWT_SECRET, (err) => {
       if (err) {
-        next(new AppError("You have been logged out", 400));
+        next(
+          new AppError("You are logged out. Please log in to continue", 400)
+        );
       } else {
         next();
       }

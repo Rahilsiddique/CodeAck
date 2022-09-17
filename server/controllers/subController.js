@@ -38,13 +38,16 @@ function wait(waitTime) {
 }
 
 exports.newSubmission = catchAsync(async (req, res, next) => {
-  const user = await JWT.verify(req.cookies.jwt, process.env.JWT_SECRET);
+  console.log(req.body);
+  console.log(req.headers);
+  // const user = await JWT.verify(req.cookies.jwt, process.env.JWT_SECRET);
+  // console.log(user);
   let token;
   try {
     token = await axios.post(`${process.env.JUDGE0_BASE_URL}submissions/`, {
       source_code: req.body.source_code,
       language_id: req.body.language_id,
-      std_in: req.body.std_in,
+      stdin: req.body.std_in,
       expected_output: req.body.expected_output,
     });
   } catch (err) {
@@ -66,7 +69,7 @@ exports.newSubmission = catchAsync(async (req, res, next) => {
 
   // this query takes min: 16ms and max 72ms
   const submission = {
-    userId: user.userdata.userId,
+    userId: "3423523532523",
     date: Date.now(),
     submissionData: req.body,
     result: result.data,
