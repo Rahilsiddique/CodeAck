@@ -13,14 +13,14 @@ const probSchema = mongoose.Schema({
   },
   example: [
     {
-      input: String,
-      output: String,
+      input: [String],
+      output: [String],
     },
   ],
   testcases: [
     {
-      input: String,
-      output: String,
+      input: [String],
+      output: [String],
     },
   ],
   upvotes: Number,
