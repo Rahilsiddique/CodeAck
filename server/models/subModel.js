@@ -44,6 +44,14 @@ const submissionsSchema = mongoose.Schema({
 //   console.log(`Query took ${Date.now() - this.start} milliseconds!`);
 //   next();
 // });
+submissionsSchema.post("save", function (error, doc, next) {
+  if (
+    error.name === "ValidationError" &&
+    process.env.NODE_ENV === "production"
+  ) {
+    error.isOperational = true;
+  }
+});
 
 const Submission = mongoose.model("Submission", submissionsSchema);
 module.exports = Submission;

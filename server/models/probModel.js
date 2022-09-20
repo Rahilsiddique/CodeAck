@@ -32,6 +32,12 @@ const probSchema = mongoose.Schema({
 
 probSchema.post("save", function (error, doc, next) {
   if (
+    error.name === "ValidationError" &&
+    process.env.NODE_ENV === "production"
+  ) {
+    error.isOperational = true;
+  }
+  if (
     error.name === "MongoServerError" &&
     error.code === 11000 &&
     process.env.NODE_ENV === "production"

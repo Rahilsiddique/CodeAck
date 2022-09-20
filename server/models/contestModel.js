@@ -73,7 +73,10 @@ contestSchema.pre("updateOne", async function (next) {
       )
     );
   }
-  if (data.startTime < data.endTime) next();
+  console.log(data.data.startTime);
+  if (new Date(data.data.startTime) < new Date(Date.now()))
+    return next(new AppError("Contest startTime should be in the future", 400));
+  if (data.data.startTime < data.data.endTime) next();
   else
     return next(
       new AppError("Contest start time cannot be earlier than end time", 400)
@@ -81,9 +84,9 @@ contestSchema.pre("updateOne", async function (next) {
 });
 
 contestSchema.pre("save", function (next) {
-  if (this.startTime < Date.now())
+  if (this.data.startTime < Date.now())
     return next(new AppError("Contest startTime should be in the future", 400));
-  if (this.startTime < this.endTime) next();
+  if (this.data.startTime < this.data.endTime) next();
   else
     return next(
       new AppError("Contest start time cannot be earlier than end time", 400)
@@ -92,11 +95,21 @@ contestSchema.pre("save", function (next) {
 
 contestSchema.post("save", function (error, doc, next) {
   if (
+    error.name === "ValidationError" &&
+    process.env.NODE_ENV === "production"
+  ) {
+    error.isOperational = true;
+  }
+  if (
     error.name === "MongoServerError" &&
     error.code === 11000 &&
     process.env.NODE_ENV === "production"
   ) {
-    next(new Error("This contest already exists in database"));
+    next(
+      new AppError(
+        "This contest already exists in database! Try changing the name of the contest."
+      )
+    );
   } else {
     next(error);
   }
