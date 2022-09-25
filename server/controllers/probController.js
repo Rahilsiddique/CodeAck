@@ -1,6 +1,7 @@
 const Problem = require("./../models/probModel");
 const catchAsync = require("../utils/catchAsync");
 const ApiFeatures = require("../utils/apiFeatures");
+const AppError = require("../utils/appError.js");
 
 exports.getProblems = catchAsync(async (req, res, next) => {
   const docs = new ApiFeatures(Problem.find(), req.query)
@@ -19,14 +20,22 @@ exports.getProblems = catchAsync(async (req, res, next) => {
 exports.add = catchAsync(async (req, res, next) => {
   const problem = req.body;
   await Problem.create(problem);
-  res.status(200).json({
+  res.status(401).json({
     status: "success",
     message: "Problem added successfully",
   });
 });
 
 exports.update = catchAsync(async (req, res, next) => {
-  await Problem.findOneAndUpdate({ title: req.body.problemId }, req.body);
+  if (Object.keys(req.body.data).length === 0) {
+    next(
+      new AppError(
+        "Empty update request! Use data field to enter updated information",
+        422
+      )
+    );
+  }
+  await Problem.findOneAndUpdate({ title: req.body.problemId }, req.body.data);
   res.status(200).json({
     status: "success",
     message: "Problem updated successfully",
