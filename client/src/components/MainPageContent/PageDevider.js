@@ -35,12 +35,12 @@ const PageDevider = () => {
     }
   };
   return (
-    <div className="m-1">
-      <div className="grid grid-cols-3 divide-x border-2 border-purple-700 rounded-lg p-1 m-1 cursor-pointer">
+    <div className="mx-1">
+      <div className="grid grid-cols-3 divide-x border-2 border-midGreen rounded-lg h-8 cursor-pointer">
         {Object.keys(sections)?.map((key) => (
           <div
             className={`${
-              selectedSection === key && "bg-amber-200 rounded-lg"
+              selectedSection === key && "bg-ligthGreen rounded-lg"
             }`}
             key={key}
             onClick={() => setSelectedSection(key)}
