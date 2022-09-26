@@ -12,6 +12,7 @@ export const Provider = ({ children }) => {
   };
   const [registration, setRegistration] = useState(false);
   const [profileEnter, setProfileEnter] = useState(false);
+  const [question, setQuestion] = useState([]);
   const [adminSection, setAdminSection] = useState(
     Object.keys(sidebarContent)[0]
   );
@@ -24,7 +25,9 @@ export const Provider = ({ children }) => {
         setProfileEnter,
         adminSection,
         setAdminSection,
-        sidebarContent
+        sidebarContent,
+        question,
+        setQuestion
       }}
     >
       {children}

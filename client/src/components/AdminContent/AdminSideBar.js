@@ -8,7 +8,7 @@ const AdminSideBar = () => {
     <div className="grid grid-cols-1 divide-y rounded-lg p-1 m-1 cursor-pointer">
       {Object.keys(sidebarContent)?.map((key) => (
         <div
-          className={`${adminSection === key && "bg-amber-200 rounded-lg"}`}
+          className={`${adminSection === key && "bg-ligthGreen rounded-lg"}`}
           key={key}
           onClick={() => setAdminSection(key)}
         >
