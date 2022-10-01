@@ -1,9 +1,9 @@
-//import { Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import "./App.css";
-// import MainPage from "./components/MainPage";
+ import MainPage from "./components/MainPage";
  import MainNav from "./components/MainPageContent/MainNav";
-// import Profile from "./screen/Profile";
-// import LandingPage from "./testing/LandingPage";
+import Profile from "./screen/Profile";
+import LandingPage from "./testing/LandingPage";
 import AdminProfile from './screen/AdminProfile'
 function App() {
   return (
