@@ -126,7 +126,13 @@ exports.oauth2callback = catchAsync(async (req, res, next) => {
 });
 
 exports.redirectToAuthUrl = (req, res, next) => {
+<<<<<<< HEAD
   res.json({ url: authorizationUrl });
+=======
+  res.json({
+    url: authorizationUrl,
+  });
+>>>>>>> d97c19cd80d2fd969632feda3a3acd73b4db8eec
 };
 
 exports.isLoggedIn = async (req, res, next) => {

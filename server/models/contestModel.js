@@ -52,6 +52,8 @@ const contestSchema = mongoose.Schema(
   }
 );
 
+const Contest = mongoose.model("Contest", contestSchema);
+
 contestSchema.virtual("registered").get(function () {
   return this.contestants.length;
 });
@@ -64,7 +66,7 @@ contestSchema.pre("updateOne", async function (next) {
   const data = this.getUpdate();
   const doc = await Contest.findOne({ _id: data.contestId });
   if (doc === null)
-    return next(new AppError("No Contests found with that Id", 400));
+    return next(new AppError("No Contests found with that Id", 422));
   if (doc.status === "OVER") {
     return next(
       new AppError(
@@ -73,7 +75,6 @@ contestSchema.pre("updateOne", async function (next) {
       )
     );
   }
-  console.log(data.data.startTime);
   if (new Date(data.data.startTime) < new Date(Date.now()))
     return next(new AppError("Contest startTime should be in the future", 400));
   if (data.data.startTime < data.data.endTime) next();
@@ -114,8 +115,6 @@ contestSchema.post("save", function (error, doc, next) {
     next(error);
   }
 });
-
-const Contest = mongoose.model("Contest", contestSchema);
 
 Contest.watch().on(
   "change",
