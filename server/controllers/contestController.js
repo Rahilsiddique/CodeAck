@@ -43,7 +43,15 @@ exports.createContest = catchAsync(async (req, res, next) => {
 });
 
 exports.updateContestDetails = catchAsync(async (req, res, next) => {
-  await Contest.updateOne({ _id: req.body.contestId }, req.body);
+  if (Object.keys(req.body.data).length === 0) {
+    next(
+      new AppError(
+        "Empty update request! Use data field to enter updated information",
+        422
+      )
+    );
+  }
+  await Contest.findOneAndUpdate({ _id: req.body.contestId }, req.body.data);
   res.status(200).json({
     status: "success",
     message: "Contest details updated successfully",
@@ -51,7 +59,8 @@ exports.updateContestDetails = catchAsync(async (req, res, next) => {
 });
 
 exports.cancelContest = catchAsync(async (req, res, next) => {
-  await Contest.deleteOne({ _id: req.body.contestId });
+  const done = await Contest.findOneAndDelete({ _id: req.body.contestId });
+  if (!done) return next(new AppError("No Contests found with that Id", 400));
   res.status(200).json({
     status: "success",
     message: "Contest cancelled successfully",
@@ -64,6 +73,8 @@ exports.register = catchAsync(async (req, res, next) => {
     { _id: req.body.contestId },
     { $addToSet: { contestants: user.userdata._id } }
   );
+  if (!contest)
+    return next(new AppError("No Contests found with that Id", 422));
   res.status(200).json({
     status: "success",
     registered: contest.registered,
@@ -75,11 +86,7 @@ exports.isRegistered = catchAsync(async (req, res, next) => {
   const user = JWT.verify(req.cookies.jwt, process.env.JWT_SECRET);
   const contest = await Contest.findOne({ _id: req.body.contestId });
   if (contest === null)
-    return next(
-      new AppError("Invalid Contest ID. Cannot find that contest.", 400)
-    );
-  if (contest.startTime > Date.now())
-    return next(new AppError("The contest hasn't started yet", 403));
+    return next(new AppError("No Contests found with that Id", 422));
   if (contest.contestants.includes(user.userdata._id)) next();
   else {
     return next(
@@ -93,6 +100,10 @@ exports.isRegistered = catchAsync(async (req, res, next) => {
 
 exports.join = catchAsync(async (req, res, next) => {
   const user = JWT.verify(req.cookies.jwt, process.env.JWT_SECRET);
+  const con = await Contest.findOne({ _id: req.body.contestId });
+  if (!con) return next(new AppError("No Contests found with that Id", 422));
+  if (con.startTime > Date.now())
+    return next(new AppError("The contest hasn't started yet", 403));
   const contest = await Contest.findOneAndUpdate(
     { _id: req.body.contestId },
     { $addToSet: { joined: user.userdata._id } }

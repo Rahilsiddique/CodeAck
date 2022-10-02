@@ -30,7 +30,19 @@ exports.add = catchAsync(async (req, res, next) => {
 });
 
 exports.update = catchAsync(async (req, res, next) => {
-  await Problem.findOneAndUpdate({ title: req.body.problemId }, req.body);
+  if (Object.keys(req.body.data).length === 0) {
+    next(
+      new AppError(
+        "Empty update request! Use data field to enter updated information",
+        422
+      )
+    );
+  }
+  const done = await Problem.findOneAndUpdate(
+    { _id: req.body.problemId },
+    req.body.data
+  );
+  if (!done) return next(new AppError("No Contests found with that Id", 422));
   res.status(200).json({
     status: "success",
     message: "Problem updated successfully",
@@ -38,7 +50,8 @@ exports.update = catchAsync(async (req, res, next) => {
 });
 
 exports.delete = catchAsync(async (req, res, next) => {
-  await Problem.deleteOne({ title: req.body.problemId });
+  const done = await Problem.findOneAndDelete({ _id: req.body.problemId });
+  if (!done) return next(new AppError("No Contests found with that Id", 422));
   res.status(200).json({
     status: "success",
     message: "Problem deleted successfully",
