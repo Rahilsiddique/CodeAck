@@ -6,7 +6,7 @@ const MainNav = () => {
   const { setProfileEnter } = useContext(MainContext);
 
   return (
-    <div className="border-2 border-blue-400 p-1.5 rounded-lg m-1 flex justify-between items-center">
+    <div className="border-2 border-midGreen bg-whiteLike p-1.5 rounded-lg m-1 flex justify-between items-center">
       <Link to="/">
         <div className="mx-3 items-center cursor-pointer">navBar</div>
       </Link>
