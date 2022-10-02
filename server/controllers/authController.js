@@ -25,7 +25,7 @@ const authorizationUrl = oauth2Client.generateAuthUrl({
   access_type: "offline",
   /** Pass in the scopes array defined above.
    * Alternatively, if only one scope is needed, you can pass a scope URL as a string */
-  scope: scopes,
+  scope: scopes
 });
 
 async function getUserInfo(token) {
@@ -35,8 +35,8 @@ async function getUserInfo(token) {
         "https://www.googleapis.com/oauth2/v1/userinfo?alt=json",
         {
           headers: {
-            Authorization: `Bearer ${token.access_token}`,
-          },
+            Authorization: `Bearer ${token.access_token}`
+          }
         }
       )
     ).data;
@@ -72,7 +72,7 @@ exports.oauth2callback = catchAsync(async (req, res, next) => {
     email: userinfo.email,
     role: userinfo?.role,
     profilePicture: userinfo.picture,
-    createdAt: new Date(Date.now()).getTime(),
+    createdAt: new Date(Date.now()).getTime()
   };
   let userid;
   // User Signup
@@ -85,7 +85,7 @@ exports.oauth2callback = catchAsync(async (req, res, next) => {
         { email: userinfo.email },
         {
           userId: userinfo.id,
-          lastLoginAt: new Date(Date.now()).getTime(),
+          lastLoginAt: new Date(Date.now()).getTime()
         }
       )
     )._id;
@@ -101,12 +101,12 @@ exports.oauth2callback = catchAsync(async (req, res, next) => {
         name: userinfo.given_name,
         lastName: userinfo?.family_name,
         profilePicture: userinfo.picture,
-        role: userinfo?.role,
-      },
+        role: userinfo?.role
+      }
     },
     process.env.JWT_SECRET,
     {
-      expiresIn: process.env.JWT_EXPIRES_IN,
+      expiresIn: process.env.JWT_EXPIRES_IN
     }
   );
 
@@ -115,18 +115,18 @@ exports.oauth2callback = catchAsync(async (req, res, next) => {
     expires: new Date(
       Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
     ),
-    httpOnly: true,
+    httpOnly: true
   };
   if (process.env.NODE_ENV === "production") cookieOptions.secure = true;
   res.cookie("jwt", token, cookieOptions);
   res.status(200).json({
     status: "success",
-    message: "User signed in Successfully",
+    message: "User signed in Successfully"
   });
 });
 
 exports.redirectToAuthUrl = (req, res, next) => {
-  res.redirect(authorizationUrl);
+  res.json({ url: authorizationUrl });
 };
 
 exports.isLoggedIn = async (req, res, next) => {
@@ -148,6 +148,6 @@ exports.logout = catchAsync(async (req, res, next) => {
   res.clearCookie("jwt");
   res.status(200).json({
     status: "success",
-    message: "Logged out successfully",
+    message: "Logged out successfully"
   });
 });
