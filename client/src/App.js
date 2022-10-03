@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import Profile from "./screen/Profile";
-import LandingPage from "./testing/LandingPage";
+import LandingPage from "./screen/LandingPage";
 import AdminProfile from "./screen/AdminProfile";
 import Login from "./components/Authentication/Login";
 import MainPage from "./components/MainPage";

@@ -1,9 +1,14 @@
 import React from "react";
+import LandingPageHero from "../components/LandingPageContent/LandingPageHero";
+import LandingPageNavbar from "../components/LandingPageContent/LandingPageNavbar";
+import LandingPageAboutUs from "../components/LandingPageContent/LandingPageAboutUs";
 
 const LandingPage = () => {
   return (
     <div>
-      <nav></nav>
+      <LandingPageNavbar />
+      <LandingPageHero />
+      <LandingPageAboutUs />
     </div>
   );
 };
