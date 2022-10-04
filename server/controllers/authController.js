@@ -125,7 +125,7 @@ exports.oauth2callback = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.redirectToAuthUrl = (req, res, next) => {
+exports.sendAuthUrl = (req, res, next) => {
   res.json({
     url: authorizationUrl,
   });

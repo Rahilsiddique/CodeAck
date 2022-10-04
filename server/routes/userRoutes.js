@@ -3,7 +3,7 @@ const authController = require("../controllers/authController");
 
 const router = express.Router();
 
-router.get("/auth/google", authController.redirectToAuthUrl);
+router.get("/auth/google", authController.sendAuthUrl);
 router.get("/oauth2callback", authController.oauth2callback);
 router.get("/logout", authController.logout);
 router.get(
