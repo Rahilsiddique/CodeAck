@@ -10,8 +10,8 @@ const LandingPageHero = () => {
         <h1 className="mb-11 text-4xl font-extrabold tracking-tight leading-none md:text-5xl lg:text-6xl text-whiteLike">
           ONLINE CODING ASSESMENT
         </h1>
-        <p className="mb-8 text-lg font-normal text-whiteLike lg:text-xl sm:px-16 xl:px-48 dark:text-whiteLike">
-          We at code<span className="text-crimsonLike font-semibold">A</span>ck
+        <p className="mb-8 text-lg font-normal text-whiteLike lg:text-xl sm:px-16 xl:px-48 dark:text-whiteLike hover:scale-50 duration-300">
+          We at code<span className="text-[crimson] font-semibold">A</span>ck
           are building a platform for making the procedure of taking online
           coeding assesment as easy as possible
         </p>
