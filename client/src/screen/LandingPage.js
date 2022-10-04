@@ -22,9 +22,22 @@ const LandingPage = () => {
           <img src={ImageLanding} alt ="/"/>
         </div>
       </div>
+      
 
 
 
+=======
+import LandingPageHero from "../components/LandingPageContent/LandingPageHero";
+import LandingPageNavbar from "../components/LandingPageContent/LandingPageNavbar";
+import LandingPageAboutUs from "../components/LandingPageContent/LandingPageAboutUs";
+
+const LandingPage = () => {
+  return (
+    <div>
+      <LandingPageNavbar />
+      <LandingPageHero />
+      <LandingPageAboutUs />
+>>>>>>> 4fbeb4aa499eca3276cb1424e45bfe05bb78c570
     </div>
 
   );
