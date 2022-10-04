@@ -13,6 +13,7 @@ export const Provider = ({ children }) => {
   const [registration, setRegistration] = useState(false);
   const [profileEnter, setProfileEnter] = useState(false);
   const [question, setQuestion] = useState([]);
+  const [googleLoginPage, setGoogleLoginPage] = useState(null);
   const [adminSection, setAdminSection] = useState(
     Object.keys(sidebarContent)[0]
   );
@@ -27,7 +28,9 @@ export const Provider = ({ children }) => {
         setAdminSection,
         sidebarContent,
         question,
-        setQuestion
+        setQuestion,
+        googleLoginPage,
+        setGoogleLoginPage
       }}
     >
       {children}
