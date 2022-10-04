@@ -9,12 +9,14 @@ import MainPage from "./components/MainPage";
 import MainNav from "./components/MainPageContent/MainNav";
 import { MainContext } from "./context/context";
 
+
 function App() {
   const { isLogin } = useContext(MainContext);
   // const tempdel = JSON.stringify(googleLoginPage);
 
   return (
     <div className="App">
+     
       {isLogin && <MainNav />}
       {/* {HTMLReactParser(tempdel)} */}
       <Routes>
@@ -25,6 +27,7 @@ function App() {
         <Route path="/Admin" element={<AdminProfile />}></Route>
         <Route path="/login" element={<Login />}></Route>
       </Routes>
+      
     </div>
   );
 }
