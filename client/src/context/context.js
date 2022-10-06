@@ -14,6 +14,7 @@ export const Provider = ({ children }) => {
   const [profileEnter, setProfileEnter] = useState(false);
   const [question, setQuestion] = useState([]);
   const [googleLoginPage, setGoogleLoginPage] = useState(null);
+  const [isLogIn, setIsLogIn] = useState(false);
   const [adminSection, setAdminSection] = useState(
     Object.keys(sidebarContent)[0]
   );
@@ -30,7 +31,9 @@ export const Provider = ({ children }) => {
         question,
         setQuestion,
         googleLoginPage,
-        setGoogleLoginPage
+        setGoogleLoginPage,
+        isLogIn,
+        setIsLogIn
       }}
     >
       {children}
