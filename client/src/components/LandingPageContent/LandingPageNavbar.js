@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { FaAlignCenter, FaAlignJustify } from "react-icons/fa";
 
 const LandingPageNavbar = () => {
+  const [navOn, setNavOn] = useState(false);
   return (
     <div className="w-full top-0 z-30 scroll-smooth">
       <nav className="flex items-center justify-between flex-wrap bg-[#1D3557] p-6 scroll-smooth">
@@ -14,7 +15,11 @@ const LandingPageNavbar = () => {
             ck
           </span>
         </div>
-        <div className="text-lg lg:w-auto justify-between px-10">
+        <div
+          className={`text-lg lg:w-auto justify-between px-10 lg:block ${
+            navOn && "hidden"
+          }`}
+        >
           <a
             href="#home"
             className="block mt-4 lg:inline-block lg:mt-0 text-ligthGreen hover:text-crimsonLike px-5 transition duration-300"
@@ -33,7 +38,12 @@ const LandingPageNavbar = () => {
           >
             Contact Us
           </a>
-          {/* <FaAlignJustify color="white" /> */}
+        </div>
+        <div className={`lg:hidden`}>
+          <FaAlignJustify
+            color="crimson"
+            onClick={() => setNavOn((prev) => !prev)}
+          />
         </div>
       </nav>
     </div>

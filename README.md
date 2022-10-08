@@ -38,8 +38,16 @@ $ git clone https://github.com/YOUR-USERNAME/YOUR-REPOSITORY
 **steps 6)** Go to your project file (CodeAck) and run `npm install`
  so that your get all the packages available if missed .
 
-**steps 7)** Repeat the same with `frontend` folder and `backend` folder.
- 
+**steps 7)** Repeat the same with frontend `client` folder and backend `server` folder.
+
+## how to contribute to the Front-end of codeAck?
+
+**step 1)** Go to the file where you have cloned this porject open terminal and enter `client` side of the project
+```
+cd client
+```
+**step 2)** download all the node modules by `npm install` 
+
 ##  Badges
 
 
