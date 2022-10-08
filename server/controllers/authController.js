@@ -115,7 +115,7 @@ exports.oauth2callback = catchAsync(async (req, res, next) => {
     expires: new Date(
       Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
     ),
-    httpOnly: true,
+    // httpOnly: true
   };
   if (process.env.NODE_ENV === "production") cookieOptions.secure = true;
   res.cookie("jwt", token, cookieOptions);
@@ -126,7 +126,7 @@ exports.oauth2callback = catchAsync(async (req, res, next) => {
   // });
 });
 
-exports.redirectToAuthUrl = (req, res, next) => {
+exports.sendAuthUrl = (req, res, next) => {
   res.json({
     url: authorizationUrl,
   });
