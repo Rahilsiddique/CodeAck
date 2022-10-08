@@ -1,0 +1,13 @@
+PORT=5000
+NODE_ENV=development
+DOMAIN_NAME=http://localhost:3000/
+DATABASE=*mongodb connection link*
+DATABASE_PASSWORD=*mongodb database password*
+GOOGLE_CLIENT_ID=*google oauth2 client id - find this in google cloud console*
+GOOGLE_CLIENT_SECRET=*google oauth2 client secret* 
+REDIRECT_URL=http://localhost:5000/users/oauth2callback
+JWT_SECRET=*random secret*
+JWT_EXPIRES_IN=1d
+JWT_COOKIE_EXPIRES_IN=1
+ADMIN_EMAIL=ay716976@gmail.com
+JUDGE0_BASE_URL=http://localhost:2358/
