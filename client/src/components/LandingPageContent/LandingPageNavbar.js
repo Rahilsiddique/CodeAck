@@ -15,16 +15,23 @@ const LandingPageNavbar = () => {
             ck
           </span>
         </div>
+        <div className={`lg:hidden`}>
+          <FaAlignJustify
+            className="inline-flex items-center"
+            color="crimson"
+            onClick={() => setNavOn((prev) => !prev)}
+          />
+        </div>
         <div
           className={`text-lg lg:w-auto justify-between px-10 lg:block ${
             navOn && 'hidden'
           }`}
         >
-          <ul className="flex flex-wrap justify-center items-center">
+          <ul className="flex justify-center items-center md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0">
             <li>
               <a
                 href="#home"
-                className="block mt-4 lg:inline-block lg:mt-0 text-ligthGreen hover:text-crimsonLike px-5 transition duration-300"
+                className="block py-2 pr-4 pl-3 mt-4 lg:inline-block lg:mt-0 text-ligthGreen hover:text-crimsonLike px-5 transition duration-300"
               >
                 Home
               </a>
@@ -32,7 +39,7 @@ const LandingPageNavbar = () => {
             <li>
               <a
                 href="#about-us"
-                className="block mt-4 lg:inline-block lg:mt-0 text-ligthGreen hover:text-crimsonLike px-5 transition duration-300"
+                className="block py-2 pr-4 pl-3 mt-4 lg:inline-block lg:mt-0 text-ligthGreen hover:text-crimsonLike px-5 transition duration-300"
               >
                 About Us
               </a>
@@ -40,18 +47,12 @@ const LandingPageNavbar = () => {
             <li>
               <a
                 href="#contact-us"
-                className="block mt-4 lg:inline-block lg:mt-0 text-ligthGreen hover:text-crimsonLike px-5 transition duration-300"
+                className="block py-2 pr-4 pl-3 mt-4 lg:inline-block lg:mt-0 text-ligthGreen hover:text-crimsonLike px-5 transition duration-300"
               >
                 Contact Us
               </a>
             </li>
           </ul>
-        </div>
-        <div className={`lg:hidden`}>
-          <FaAlignJustify
-            color="crimson"
-            onClick={() => setNavOn((prev) => !prev)}
-          />
         </div>
       </nav>
     </div>
