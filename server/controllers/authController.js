@@ -68,7 +68,7 @@ exports.oauth2callback = catchAsync(async (req, res, next) => {
   // 3. If user doesn't already exist create the user in the database
   const users = {
     userId: userinfo.id,
-    name: userinfo.name,
+    username: userinfo.name,
     email: userinfo.email,
     role: userinfo?.role,
     profilePicture: userinfo.picture,
