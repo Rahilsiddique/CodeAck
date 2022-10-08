@@ -44,7 +44,7 @@ exports.newSubmission = catchAsync(async (req, res, next) => {
     token = await axios.post(`${process.env.JUDGE0_BASE_URL}submissions/`, {
       source_code: req.body.source_code,
       language_id: req.body.language_id,
-      std_in: req.body.std_in,
+      stdin: req.body.std_in,
       expected_output: req.body.expected_output,
     });
   } catch (err) {
