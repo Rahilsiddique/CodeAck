@@ -46,12 +46,7 @@ const LandingPageNavbar = () => {
             </ul>
           </div>
 
-          {/* <div className='w-full p-3 hidden md:flex flex-row'>
-         <li className='p-4'>Home</li>
-        <li className='p-4'>Company</li>
-        <li className='p-4'>Resource</li> 
-        
-    </div> */}
+         
         </div>
 
 
