@@ -3,7 +3,7 @@ import React from "react";
 const LandingPageAboutUs = () => {
   return (
     <section
-      className="bg-white dark:bg-ligthGreen h-auto overflow-y-hidden"
+      className="bg-white dark:bg-ligthGreen h-screen overflow-y-hidden"
       id="about-us"
     >
       <div className="p-10 py-5 mx-auto max-w-screen-xl">
