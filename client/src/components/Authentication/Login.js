@@ -16,6 +16,7 @@ const Login = () => {
       .then((result) => setGoogleLoginPage(result))
       .catch((error) => console.log("error", error));
   }, [isLogin]);
+
   const doLogin = () => {
     setIsLogIn((prev) => !prev);
     window.location.href = JSON.parse(googleLoginPage).url;
