@@ -17,7 +17,7 @@ const LandingPageAboutUs = () => {
         <form action="#" className="space-y-8">
           <div>
             <label
-              for="email"
+              htmlFor="email"
               className="block mb-2 text-sm font-medium text-gray-900"
             >
               Your email
@@ -32,7 +32,7 @@ const LandingPageAboutUs = () => {
           </div>
           <div>
             <label
-              for="subject"
+              htmlFor="subject"
               className="block mb-2 text-sm font-medium text-gray-900"
             >
               Subject
@@ -47,7 +47,7 @@ const LandingPageAboutUs = () => {
           </div>
           <div className="sm:col-span-2">
             <label
-              for="message"
+              htmlFor="message"
               className="block mb-2 text-sm font-medium text-gray-900"
             >
               Your message
