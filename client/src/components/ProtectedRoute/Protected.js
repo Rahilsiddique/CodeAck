@@ -15,8 +15,8 @@ const Protected = (props) => {
   });
   return (
     <>
-      <Component />
-      {Cookies.get() && <Navigate to="/main" />}
+//       <Component />
+//       {Cookies.get() && <Navigate to="/main" />}
     </>
   );
 };
