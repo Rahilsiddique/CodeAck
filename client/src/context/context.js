@@ -18,6 +18,9 @@ export const Provider = ({ children }) => {
   const [adminSection, setAdminSection] = useState(
     Object.keys(sidebarContent)[0]
   );
+
+  // userAuth data  ***Not Permanent***
+  const [authData, setAuthData] = useState();
   return (
     <MainContext.Provider
       value={{
@@ -33,7 +36,9 @@ export const Provider = ({ children }) => {
         googleLoginPage,
         setGoogleLoginPage,
         isLogIn,
-        setIsLogIn
+        setIsLogIn,
+        authData,
+        setAuthData
       }}
     >
       {children}

@@ -44,7 +44,7 @@ const LandingPageNavbar = () => {
 
         <div
           onClick={() => setNav((prev) => !prev)}
-          className="block p-3 lg:hidden top-0 right-0 sticky"
+          className="block p-3 lg:hidden top-0 right-0 z-1 sticky"
         >
           {!nav ? (
             <AiOutlineClose color="white" size={30} />

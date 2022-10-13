@@ -1,9 +1,11 @@
-import React, { useContext, useEffect, useState } from "react";
+import Cookies from "js-cookie";
+import jwtDecode from "jwt-decode";
+import React, { useContext, useEffect } from "react";
 import { FaGithub, FaGoogle, FaFacebook } from "react-icons/fa";
 import { MainContext } from "../../context/context";
 
 const Login = () => {
-  const { googleLoginPage, setGoogleLoginPage, setIsLogIn, isLogin } =
+  const { googleLoginPage, setGoogleLoginPage, setIsLogIn, isLogin, authData } =
     useContext(MainContext);
 
   const requestOptions = {
@@ -15,12 +17,12 @@ const Login = () => {
       .then((response) => response.text())
       .then((result) => setGoogleLoginPage(result))
       .catch((error) => console.log("error", error));
-  }, [isLogin]);
+  }, [googleLoginPage]);
 
   const doLogin = () => {
     setIsLogIn((prev) => !prev);
     window.location.href = JSON.parse(googleLoginPage).url;
-    console.log(JSON.parse(googleLoginPage).url);
+    authData = jwtDecode(Cookies.get().jwt);
   };
   return (
     <div className="w-full grid h-screen place-items-center bg-midGreen">

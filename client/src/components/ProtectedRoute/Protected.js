@@ -1,20 +1,23 @@
+import Cookies from "js-cookie";
 import React, { useContext, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Route, Navigate, Routes, useNavigate } from "react-router-dom";
 import { MainContext } from "../../context/context";
 import MainPage from "../MainPage";
 
-const Protected = ({ component }) => {
-  const { isLogIn } = useContext(MainContext);
+const Protected = (props) => {
+  const { Component } = props;
   const navigate = useNavigate();
-  //   useEffect(() => {
-  //     if (!isLogIn) {
-  //       navigate("/login");
-  //     }
-  //   });
+  console.log(Object.keys(Cookies.get()).length === 0);
+  useEffect(() => {
+    if (Object.keys(Cookies.get()).length === 0) {
+      navigate("/login");
+    }
+  });
   return (
-    <div>
-      <MainPage />
-    </div>
+    <>
+      <Component />
+      {Cookies.get() && <Navigate to="/main" />}
+    </>
   );
 };
 
