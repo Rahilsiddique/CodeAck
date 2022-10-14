@@ -12,11 +12,13 @@ const Protected = (props) => {
     if (Object.keys(Cookies.get()).length === 0) {
       navigate("/login");
     }
-  });
+    if (Object.keys(Cookies.get()).length > 0) {
+      navigate("/main");
+    }
+  }, []);
   return (
     <>
       <Component />
-      {Cookies.get() && <Navigate to="/main" />}
     </>
   );
 };
