@@ -2,10 +2,12 @@ const { google } = require("googleapis");
 const url = require("url");
 const axios = require("axios");
 const JWT = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
 const catchAsync = require("./../utils/catchAsync");
 const User = require("./../models/userModel");
 const AppError = require("../utils/appError");
 
+// Method 1: Via Google OAuth 2.0
 /**
  * To use OAuth2 authentication, we need access to a CLIENT_ID, CLIENT_SECRET, AND REDIRECT_URI
  * from the environment variables.
@@ -51,6 +53,30 @@ exports.displayUserDetails = catchAsync(async (req, res, next) => {
   res.status(200).json(decoded);
 });
 
+const createJWTToken = (data) => {
+  let token = JWT.sign(
+    {
+      userdata: data,
+    },
+    process.env.JWT_SECRET,
+    {
+      expiresIn: process.env.JWT_EXPIRES_IN,
+    }
+  );
+  return token;
+};
+
+const setResponseCookie = (res, token) => {
+  const cookieOptions = {
+    expires: new Date(
+      Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
+    ),
+    // httpOnly: true
+  };
+  if (process.env.NODE_ENV === "production") cookieOptions.secure = true;
+  res.cookie("jwt", token, cookieOptions);
+};
+
 exports.oauth2callback = catchAsync(async (req, res, next) => {
   // 1. Receive the callback from Google's OAuth 2.0 server. Handle the OAuth 2.0 server response
   let q = url.parse(req.url, true).query;
@@ -92,33 +118,20 @@ exports.oauth2callback = catchAsync(async (req, res, next) => {
   }
 
   // 4. Create a JWT token
-  let token = JWT.sign(
-    {
-      userdata: {
-        _id: userid,
-        userId: userinfo.id,
-        email: userinfo.email,
-        name: userinfo.given_name,
-        lastName: userinfo?.family_name,
-        profilePicture: userinfo.picture,
-        role: userinfo?.role,
-      },
-    },
-    process.env.JWT_SECRET,
-    {
-      expiresIn: process.env.JWT_EXPIRES_IN,
-    }
-  );
+  const data = {
+    _id: userid,
+    userId: userinfo.id,
+    email: userinfo.email,
+    name: userinfo.given_name,
+    lastName: userinfo?.family_name,
+    profilePicture: userinfo.picture,
+    role: userinfo?.role,
+  };
+
+  const token = createJWTToken(data);
 
   // 5. Create a JWT_COOKIE using tokens and user_info
-  const cookieOptions = {
-    expires: new Date(
-      Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
-    ),
-    // httpOnly: true
-  };
-  if (process.env.NODE_ENV === "production") cookieOptions.secure = true;
-  res.cookie("jwt", token, cookieOptions);
+  setResponseCookie(res, token);
   res.redirect("http://localhost:5000/");
   // res.status(200).json({
   //   status: "success",
@@ -131,6 +144,31 @@ exports.sendAuthUrl = (req, res, next) => {
     url: authorizationUrl,
   });
 };
+
+// Method 2: Via username/email and password
+exports.signup = catchAsync(async (req, res, next) => {
+  const userinfo = req.body;
+  if (userinfo.password != userinfo.conpassword)
+    return next(
+      new AppError("Password and Confirm Password do not match", 400)
+    );
+  let salt = bcrypt.genSaltSync(10);
+  let hash = bcrypt.hashSync(userinfo.password, salt);
+  const users = {
+    username: userinfo.name,
+    email: userinfo.email,
+    password: hash,
+    createdAt: new Date(Date.now()).getTime(),
+  };
+  await User.create(users);
+  const data = {
+    username: userinfo.name,
+    email: userinfo.email,
+  };
+  const token = createJWTToken(data);
+  setResponseCookie(res, token);
+  res.redirect("http://localhost:3000/");
+});
 
 exports.isLoggedIn = async (req, res, next) => {
   const cookie = req.cookies?.jwt;
