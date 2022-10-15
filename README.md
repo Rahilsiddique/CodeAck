@@ -1,3 +1,9 @@
+
+####  For your first contribution add your details in  ![CONTRIBUTING.md](https://github.com/Rahilsiddique/codeAck/blob/main/CONTRIBUTING.md) file. Happy Hacking
+
+
+
+
 ## CodeAck
  
  This name is derived from `Code and Hack` which combined gives `CodeAck` . Since we were making something related to coding and that would eventually increase your coding skill we found this name facinating.
@@ -9,7 +15,6 @@
  This is generally a coding platform where student from our college can do their weekely  questions  smoothly.This is multi-language based platform which support majorly used language like `C++, Java , Javascript, C` and `Python`.
 
 Here , we used `React Js` and `Tailwind` for frontend   and for the backend  part we used `Node Js`.  We used this technologies because React provides us the most supporting community that we have ever seen and Keeping scalability in mind we choose Node js since this project is going to be scalable in future.
-
 
 
 
