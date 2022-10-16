@@ -44,7 +44,7 @@ const LandingPageNavbar = () => {
 
         <div
           onClick={() => setNav((prev) => !prev)}
-          className="block p-3 lg:hidden top-0 right-0 z-1 sticky"
+          className="p-3 lg:hidden top-0 right-0 z-10 fixed"
         >
           {!nav ? (
             <AiOutlineClose color="white" size={30} />
@@ -55,8 +55,8 @@ const LandingPageNavbar = () => {
         <div
           className={
             !nav
-              ? "fixed left-0 top-0 w-[40%] h-full border-r border-r-grey-900  bg-[#1D3557] ease-in-out duration-700"
-              : "fixed left-[-100%] "
+              ? "fixed left-0 top-0 w-[100%] h-screen border-r border-r-grey-900  bg-[#1D3557] ease-in-out duration-700"
+              : "fixed left-[-100%] ease-in-out h-screen duration-700"
           }
         >
           {/* <h1 className='  w-full text-3xl font-bold text-[#00df9a] m-4'>React.</h1> */}
@@ -78,18 +78,21 @@ const LandingPageNavbar = () => {
               <a
                 href="#home"
                 className="block mt-4 lg:inline-block lg:mt-0 text-ligthGreen hover:text-crimsonLike px-5 transition duration-300"
+                onClick={() => setNav((prev) => !prev)}
               >
                 Home
               </a>
               <a
                 href="#about-us"
                 className="block mt-4 lg:inline-block lg:mt-0 text-ligthGreen hover:text-crimsonLike px-5 transition duration-300"
+                onClick={() => setNav((prev) => !prev)}
               >
                 About Us
               </a>
               <a
                 href="#contact-us"
                 className="block mt-4 lg:inline-block lg:mt-0 text-ligthGreen hover:text-crimsonLike px-5 transition duration-300"
+                onClick={() => setNav((prev) => !prev)}
               >
                 Contact Us
               </a>
