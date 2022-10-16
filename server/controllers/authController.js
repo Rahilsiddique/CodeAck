@@ -6,10 +6,12 @@ const bcrypt = require("bcryptjs");
 const catchAsync = require("./../utils/catchAsync");
 const User = require("./../models/userModel");
 const AppError = require("../utils/appError");
+const nodemailer = require("nodemailer");
+const { randomUUID } = require("crypto");
 
 // Method 1: Via Google OAuth 2.0
 /**
- * To use OAuth2 authentication, we need access to a CLIENT_ID, CLIENT_SECRET, AND REDIRECT_URI
+ * To use OAuth2 authentication, we need access to CLIENT_ID, CLIENT_SECRET, AND REDIRECT_URI
  * from the environment variables.
  */
 const oauth2Client = new google.auth.OAuth2(
@@ -110,7 +112,6 @@ exports.oauth2callback = catchAsync(async (req, res, next) => {
       await User.findOneAndUpdate(
         { email: userinfo.email },
         {
-          userId: userinfo.id,
           lastLoginAt: new Date(Date.now()).getTime(),
         }
       )
@@ -120,10 +121,8 @@ exports.oauth2callback = catchAsync(async (req, res, next) => {
   // 4. Create a JWT token
   const data = {
     _id: userid,
-    userId: userinfo.id,
     email: userinfo.email,
-    name: userinfo.given_name,
-    lastName: userinfo?.family_name,
+    username: userinfo.given_name,
     profilePicture: userinfo.picture,
     role: userinfo?.role,
   };
@@ -132,11 +131,7 @@ exports.oauth2callback = catchAsync(async (req, res, next) => {
 
   // 5. Create a JWT_COOKIE using tokens and user_info
   setResponseCookie(res, token);
-  res.redirect("http://localhost:5000/");
-  // res.status(200).json({
-  //   status: "success",
-  //   message: "User signed in Successfully",
-  // });
+  res.redirect(process.env.LOGIN_REDIRECT_URL);
 });
 
 exports.sendAuthUrl = (req, res, next) => {
@@ -155,19 +150,128 @@ exports.signup = catchAsync(async (req, res, next) => {
   let salt = bcrypt.genSaltSync(10);
   let hash = bcrypt.hashSync(userinfo.password, salt);
   const users = {
-    username: userinfo.name,
+    username: userinfo.username,
     email: userinfo.email,
     password: hash,
     createdAt: new Date(Date.now()).getTime(),
   };
-  await User.create(users);
+  const user = await User.create(users);
   const data = {
-    username: userinfo.name,
-    email: userinfo.email,
+    _id: user._id,
+    email: user.email,
+    username: user.username,
+    profilePicture: user?.profilePicture,
+    role: user?.role,
   };
   const token = createJWTToken(data);
   setResponseCookie(res, token);
-  res.redirect("http://localhost:3000/");
+  res.redirect(process.env.LOGIN_REDIRECT_URL);
+});
+
+exports.login = catchAsync(async (req, res, next) => {
+  const userinfo = req.body;
+  const user = await User.findOne({ username: userinfo.username });
+  if (user && (await bcrypt.compare(userinfo.password, user.password))) {
+    await User.findOneAndUpdate(
+      { username: user.username },
+      {
+        lastLoginAt: new Date(Date.now()).getTime(),
+      }
+    );
+    const data = {
+      _id: user._id,
+      email: user.email,
+      username: user.username,
+      profilePicture: user?.profilePicture,
+      role: user?.role,
+    };
+    const token = createJWTToken(data);
+    setResponseCookie(res, token);
+    res.redirect(process.env.LOGIN_REDIRECT_URL);
+  } else {
+    res.json({
+      status: fail,
+      message: "Invalid username/password",
+    });
+  }
+});
+
+exports.sendResetPasswordLink = catchAsync(async (req, res, next) => {
+  const resetToken = randomUUID();
+  const user = req.body;
+
+  if (user && !(await User.findOne({ email: user.email })))
+    return next(
+      new AppError("Sorry that email address is not registered!", 404)
+    );
+  const date = new Date(Date.now());
+  const resetTokenExpiry = Date.now() + 10 * 60 * 1000;
+  await User.findOneAndUpdate(
+    { email: user.email },
+    { $set: { resetToken: resetToken } }
+  );
+  const resetLink =
+    `${process.env.DOMAIN_NAME}users/auth/resetPassword/` +
+    resetToken +
+    `?exp=${resetTokenExpiry}`;
+  // SEND EMAIL
+  const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: "codeack1@gmail.com",
+      pass: "ufmxyscnzfhrkgxr",
+    },
+  });
+  const emailContent = `<p>Dear User,</p><p>A password reset request was issued at ${date}, here is the link to reset your password for CodeAck which will be valid for 10 minutes</p><button style="padding: 10px; border: none; border-radius: 5px; background-color: #3b82f6; font-family: 'Trebuchet MS', sans-serif;"><a href=${resetLink} style="text-decoration: none; color: #fff; font-weight: bold;">Click here to reset your password</a></button>`;
+  const options = {
+    from: "codeack1@gmail.com",
+    to: user.email,
+    subject: "CodeAck Password reset link",
+    html: emailContent,
+  };
+  transporter.sendMail(options, function (err, info) {
+    if (err) {
+      console.log(err);
+    }
+  });
+
+  res.status(200).json({
+    status: "success",
+    message: "Password reset link successfully sent to your email",
+  });
+});
+
+exports.validatePasswordReset = catchAsync(async (req, res, next) => {
+  const token = req.params?.resetToken;
+  if (!token)
+    return res.status(403).json({
+      status: "fail",
+      message: "Unauthorized",
+    });
+  const exp = req.query.exp;
+  if (exp > Date.now() && (await User.findOne({ resetToken: token }))) {
+    res.redirect(`${process.env.DOMAIN_NAME}users/loggedIn`); // redirect to reset password form
+  } else {
+    res.json({
+      status: "fail",
+      message:
+        "Invalid Password Reset link! The link has either expired or is invalid.",
+    });
+  }
+});
+
+exports.resetPassword = catchAsync(async (req, res, next) => {
+  const user = req.body;
+  let salt = bcrypt.genSaltSync(10);
+  let hash = bcrypt.hashSync(user.password, salt);
+  await User.findOneAndUpdate(
+    { email: user.email },
+    { $set: { password: hash } }
+  );
+  res.json({
+    status: "success",
+    message: "Your password was reset successfully",
+  });
 });
 
 exports.isLoggedIn = async (req, res, next) => {

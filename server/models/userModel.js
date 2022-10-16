@@ -12,6 +12,7 @@ const userSchema = mongoose.Schema({
     required: [true, "Email is required"],
   },
   password: String,
+  resetToken: String,
   profilePicture: String,
   createdAt: Date,
   lastLoginAt: Date,
