@@ -47,9 +47,9 @@ const LandingPageNavbar = () => {
           className="p-3 lg:hidden top-0 right-0 z-10 fixed"
         >
           {!nav ? (
-            <AiOutlineClose color="white" size={30} />
+            <AiOutlineClose color="crimsonLike" size={30} />
           ) : (
-            <AiOutlineMenu color="white" size={30} />
+            <AiOutlineMenu color="crimsonLike" size={30} />
           )}
         </div>
         <div
@@ -66,7 +66,7 @@ const LandingPageNavbar = () => {
               <span className="transition duration-300 hover:hidden">
                 de<span className="text-crimsonLike">A</span>
               </span>
-              Ack
+              ck
             </span>
           </div>
           <ul className="pt-24 uppercase ">
