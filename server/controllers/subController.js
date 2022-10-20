@@ -69,7 +69,7 @@ exports.newSubmission = catchAsync(async (req, res, next) => {
 
   // this query takes min: 16ms and max 72ms
   const submission = {
-    userId: "3423523532523",
+    userId: user.userdata.userId,
     date: Date.now(),
     submissionData: req.body,
     result: result.data,
