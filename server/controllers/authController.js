@@ -211,7 +211,7 @@ exports.sendResetPasswordLink = catchAsync(async (req, res, next) => {
     { $set: { resetToken: resetToken } }
   );
   const resetLink =
-    `${process.env.DOMAIN_NAME}users/auth/resetPassword/` +
+    `${process.env.SERVER_BASE_URL}users/auth/resetPassword/` +
     resetToken +
     `?exp=${resetTokenExpiry}`;
   // SEND EMAIL
@@ -250,7 +250,7 @@ exports.validatePasswordReset = catchAsync(async (req, res, next) => {
     });
   const exp = req.query.exp;
   if (exp > Date.now() && (await User.findOne({ resetToken: token }))) {
-    res.redirect(`${process.env.DOMAIN_NAME}users/loggedIn`); // redirect to reset password form
+    res.redirect(`${process.env.SERVER_BASE_URL}users/loggedIn`); // redirect to reset password form
   } else {
     res.json({
       status: "fail",

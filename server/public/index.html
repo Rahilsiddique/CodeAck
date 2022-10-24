@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+      integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <title>Route not found</title>
+  </head>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap");
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      color: #fff;
+      height: 100vh;
+      background-color: #1d3557;
+      font-family: "Inter", sans-serif;
+    }
+    .container {
+      margin: 0 auto;
+      width: 80%;
+      display: flex;
+      align-items: center;
+    }
+    .title,
+    .message {
+      flex: 1;
+      padding: 10px;
+    }
+    i {
+      position: absolute;
+      top: 10%;
+    }
+    .title {
+      text-align: right;
+    }
+    .message {
+      font-size: 18px;
+    }
+    .hover-underline-animation {
+      display: inline-block;
+      position: relative;
+      color: #e63946;
+      text-decoration: none;
+    }
+
+    .hover-underline-animation:after {
+      content: "";
+      position: absolute;
+      width: 100%;
+      transform: scaleX(0);
+      height: 1px;
+      bottom: 0;
+      left: 0;
+
+      background-color: #e63946;
+      transform-origin: bottom right;
+      transition: transform 0.25s ease-out;
+    }
+
+    .hover-underline-animation:hover:after {
+      transform: scaleX(1);
+      transform-origin: bottom left;
+    }
+  </style>
+  <body>
+    <i class="fa-solid fa-circle-exclamation fa-8x" width="100px"></i>
+    <div class="container">
+      <img src="./LOGO.png" alt="logo" class="title" width="100px" />
+      <div class="message">
+        This route does not exist on the server. Try referring to this
+        <a
+          class="hover-underline-animation"
+          href="https://documenter.getpostman.com/view/19339444/2s7YfHkdXe"
+          >documentation</a
+        >
+        to know about valid routes.
+      </div>
+    </div>
+  </body>
+</html>

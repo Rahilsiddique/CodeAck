@@ -1,6 +1,6 @@
 PORT=5000
 NODE_ENV=development
-DOMAIN_NAME=http://localhost:3000/
+SERVER_BASE_URL=http://localhost:3000/
 DATABASE=*mongodb connection link*
 DATABASE_PASSWORD=*mongodb database password*
 GOOGLE_CLIENT_ID=*google oauth2 client id - find this in google cloud console*
