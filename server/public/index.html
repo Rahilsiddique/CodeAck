@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+      integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <title>Route not found</title>
+  </head>
+  <style>
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+    i {
+      position: absolute;
+      top: 10%;
+    }
+    .container {
+      margin: 0 auto;
+      width: 80%;
+      display: flex;
+      align-items: center;
+    }
+  </style>
+  <body>
+    <i class="fa-solid fa-circle-exclamation fa-8x" width="100px"></i>
+    <div class="container">
+      <img src="./LOGO.png" alt="logo" class="title" width="100px" />
+      <div class="message">
+        This route does not exist on the server. Try referring to this
+        <a
+          class="hover-underline-animation"
+          href="https://documenter.getpostman.com/view/19339444/2s7YfHkdXe"
+          >documentation</a
+        >
+        to know about valid routes.
+      </div>
+    </div>
+  </body>
+</html>
