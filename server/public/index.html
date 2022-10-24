@@ -11,70 +11,25 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
+    <link rel="stylesheet" href="style.css" />
     <title>Route not found</title>
   </head>
   <style>
-    @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap");
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
     body {
       display: flex;
       align-items: center;
       justify-content: center;
       flex-direction: column;
-      color: #fff;
-      height: 100vh;
-      background-color: #1d3557;
-      font-family: "Inter", sans-serif;
+    }
+    i {
+      position: absolute;
+      top: 10%;
     }
     .container {
       margin: 0 auto;
       width: 80%;
       display: flex;
       align-items: center;
-    }
-    .title,
-    .message {
-      flex: 1;
-      padding: 10px;
-    }
-    i {
-      position: absolute;
-      top: 10%;
-    }
-    .title {
-      text-align: right;
-    }
-    .message {
-      font-size: 18px;
-    }
-    .hover-underline-animation {
-      display: inline-block;
-      position: relative;
-      color: #e63946;
-      text-decoration: none;
-    }
-
-    .hover-underline-animation:after {
-      content: "";
-      position: absolute;
-      width: 100%;
-      transform: scaleX(0);
-      height: 1px;
-      bottom: 0;
-      left: 0;
-
-      background-color: #e63946;
-      transform-origin: bottom right;
-      transition: transform 0.25s ease-out;
-    }
-
-    .hover-underline-animation:hover:after {
-      transform: scaleX(1);
-      transform-origin: bottom left;
     }
   </style>
   <body>

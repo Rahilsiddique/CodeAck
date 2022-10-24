@@ -1,0 +1,94 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  color: #fff;
+  height: 100vh;
+  background-color: #1d3557;
+  font-family: "Inter", sans-serif;
+}
+
+/* index.html */
+
+.title,
+.message {
+  flex: 1;
+  padding: 10px;
+}
+.title {
+  text-align: right;
+}
+.message {
+  font-size: 22px;
+}
+
+.hover-underline-animation {
+  display: inline-block;
+  position: relative;
+  color: #a8dadc;
+  text-decoration: none;
+  font-weight: 700;
+  margin-left: 15px;
+}
+
+.hover-underline-animation:after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 1px;
+  bottom: 0;
+  left: 0;
+
+  background-color: #a8dadc;
+  transform-origin: bottom right;
+  transition: transform 0.25s ease-out;
+}
+
+.hover-underline-animation:hover:after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+/* docs.html */
+.left {
+  flex: 1;
+  padding: 10px;
+  line-height: 1.5;
+}
+.right {
+  flex: 1;
+}
+.logo {
+  width: 400px;
+}
+.description {
+  font-size: 20px;
+  margin-left: 15px;
+  margin-bottom: 10px;
+}
+.contact {
+  border-radius: 50%;
+  border: none;
+  width: 50px;
+  height: 50px;
+  padding: 1px;
+}
+
+.slider {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  height: fit-content;
+  background-color: #fff;
+  border-radius: 50%;
+  width: 50px;
+  transition: width 0.3s;
+}
+
+.slider:hover {
+  width: 200px;
+  border-radius: 50px;
+}
