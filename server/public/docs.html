@@ -33,6 +33,9 @@
     .fa-brands {
       color: rgba(0, 0, 0, 0.8);
     }
+    .fa-solid {
+      color: rgba(0, 0, 0, 0.8);
+    }
   </style>
   <body>
     <div class="container">
@@ -48,28 +51,29 @@
         >
       </div>
       <div class="right">
-        <div class="slider">
-          <button class="contact-1" style="display: none">
-            <a href="https://github.com/adityayadav71"
-              ><i class="fa-brands fa-github fa-xl"></i
-            ></a>
-          </button>
-          <button class="contact" style="display: none">
-            <a href="https://www.linkedin.com/in/aditya-yadav-013865213/"
-              ><i class="fa-brands fa-linkedin fa-xl"></i>
-            </a>
-          </button>
-          <button class="contact">
-            <i class="fa-solid fa-envelope fa-2x"></i>
-          </button>
+        <div class="btn_wrap">
+          <span>Contact</span>
+          <div class="icon-container">
+            <button class="contact">
+              <a href="https://github.com/Rahilsiddique/codeAck"
+                ><i class="fa-brands fa-github fa-xl"></i
+              ></a>
+            </button>
+            <button class="contact">
+              <a href="https://www.linkedin.com/in/aditya-yadav-013865213/"
+                ><i class="fa-brands fa-linkedin fa-xl"></i>
+              </a>
+            </button>
+            <button class="contact">
+              <a href="mailto:codeack1@gmail.com">
+                <i class="fa-solid fa-envelope fa-xl"></i>
+              </a>
+            </button>
+          </div>
         </div>
         <img src="./graphic.png" alt="" />
       </div>
     </div>
-    <script>
-      document.querySelector(".slider").addEventListener("onmouseover", () => {
-        document.querySelector(".contact-1").style.display = "block";
-      });
-    </script>
+    <script></script>
   </body>
 </html>
