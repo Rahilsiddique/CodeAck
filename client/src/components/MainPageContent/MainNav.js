@@ -4,7 +4,7 @@ import { MainContext } from "../../context/context";
 import Profile from "../../screen/Profile";
 
 const MainNav = () => {
-  const { setProfileEnter, profileEnter } = useContext(MainContext);
+  const { setProfileEnter, profileEnter, authData } = useContext(MainContext);
 
   return (
     <>
@@ -14,10 +14,12 @@ const MainNav = () => {
           className="inline-flex overflow-hidden relative justify-center items-center w-10 h-10 bg-gray-100 rounded-full dark:bg-gray-600 cursor-pointer"
           onClick={() => setProfileEnter((e) => !e)}
         >
-          <span class="font-medium text-gray-600 dark:text-gray-300">R</span>
+          <span class="font-medium text-gray-600 dark:text-gray-300">
+            {authData?.userdata.username[0]}
+          </span>
         </div>
       </div>
-      {profileEnter && <Profile />}
+      {profileEnter ? <Profile /> : null}
     </>
   );
 };

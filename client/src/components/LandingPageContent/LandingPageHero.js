@@ -1,7 +1,15 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
+import { MainContext } from "../../context/context";
 
 const LandingPageHero = () => {
+  const { authData } = useContext(MainContext);
+  const [isAlreadyLoggedIn, setIsAlreadyLoggedIn] = useState(false);
+  const checkIfLogin = () => {
+    if (authData) {
+      setIsAlreadyLoggedIn((prev) => !prev);
+    }
+  };
   return (
     <section
       className="bg-midGreen dark:bg-midGreen h-screen overflow-y-hidden flex items-center"
@@ -17,7 +25,12 @@ const LandingPageHero = () => {
           coding assesment as easy as possible.
         </p>
         <button className="border-2 border-ligthGreen px-6 py-4 rounded-lg text-2xl text-midGreen bg-ligthGreen hover:bg-midGreen duration-300 hover:text-whiteLike active:translate-y-2">
-          <Link to="/login">Log in</Link>
+          <Link
+            to={`${!isAlreadyLoggedIn ? "/main" : "/login"}`}
+            onClick={checkIfLogin}
+          >
+            {isAlreadyLoggedIn ? "Log in" : "Go to play-ground"}
+          </Link>
         </button>
       </div>
     </section>

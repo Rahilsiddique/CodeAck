@@ -2,15 +2,16 @@ import Cookies from "js-cookie";
 import jwtDecode from "jwt-decode";
 import React, { useContext, useEffect } from "react";
 import { FaGithub, FaGoogle, FaFacebook } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 import { MainContext } from "../../context/context";
 
 const Login = () => {
-  const { googleLoginPage, setGoogleLoginPage, setIsLogIn, isLogin, authData } =
+  const { googleLoginPage, setGoogleLoginPage, setIsLogIn } =
     useContext(MainContext);
 
   const requestOptions = {
     method: "GET",
-    redirect: "follow"
+    redirect: "follow",
   };
   useEffect(() => {
     fetch("http://localhost:5000/users/auth/google", requestOptions)
@@ -18,11 +19,10 @@ const Login = () => {
       .then((result) => setGoogleLoginPage(result))
       .catch((error) => console.log("error", error));
   }, [googleLoginPage]);
-
+  console.log(googleLoginPage);
   const doLogin = () => {
     setIsLogIn((prev) => !prev);
     window.location.href = JSON.parse(googleLoginPage).url;
-    authData = jwtDecode(Cookies.get().jwt);
   };
   return (
     <div className="w-full grid h-screen place-items-center bg-midGreen">

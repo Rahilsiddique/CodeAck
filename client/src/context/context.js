@@ -1,3 +1,5 @@
+import Cookies from "js-cookie";
+import jwtDecode from "jwt-decode";
 import React, { createContext, useState } from "react";
 
 // const initialState = {};
@@ -8,7 +10,7 @@ export const Provider = ({ children }) => {
   const sidebarContent = {
     profile: "Profile",
     addContest: "Add Contest",
-    makeAnnouncement: "Make Announcement"
+    makeAnnouncement: "Make Announcement",
   };
   const [registration, setRegistration] = useState(false);
   const [profileEnter, setProfileEnter] = useState(false);
@@ -20,7 +22,12 @@ export const Provider = ({ children }) => {
   );
 
   // userAuth data  ***Not Permanent***
-  const [authData, setAuthData] = useState();
+  const userData =
+    Object.keys(Cookies.get()).length === 0
+      ? null
+      : jwtDecode(Cookies.get().jwt);
+
+  const [authData, setAuthData] = useState(userData);
   return (
     <MainContext.Provider
       value={{
@@ -38,7 +45,7 @@ export const Provider = ({ children }) => {
         isLogIn,
         setIsLogIn,
         authData,
-        setAuthData
+        setAuthData,
       }}
     >
       {children}
