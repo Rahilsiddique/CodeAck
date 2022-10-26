@@ -24,7 +24,7 @@ exports.getContestDetails = catchAsync(async (req, res, next) => {
     .limitFields()
     .paginate();
   const contests = await results.query;
-  if (!problems) {
+  if (!contests) {
     return next(new AppError("Something went wrong. Please Try again!", 500));
   }
   res.status(200).json({
