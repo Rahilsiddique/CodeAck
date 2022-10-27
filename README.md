@@ -1,4 +1,3 @@
-#### For your first contribution add your details in ![CONTRIBUTING.md](https://github.com/Rahilsiddique/codeAck/blob/main/CONTRIBUTING.md) file. Happy Hacking
 
 ## CodeAck
 
